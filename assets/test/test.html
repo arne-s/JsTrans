@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr" id="html">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Yii JS translator extension</title>
+    <link rel="Stylesheet" media="screen" href="testsuite.css"/>
+    <script type="text/javascript" src="../JsTrans.js"></script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="jqUnit.js"></script>
+    <script type="text/javascript">
+        var testcase = new jqUnit.TestCase("JS_trans");
+
+        // define fixture dictionary
+        var fixture = {
+            "Hello world!":"Hallo wereld!",
+            "Welcome {user}":"Welkom {user}",
+            "Welcome {user}, your email is {email}":"Welkom {user}, je e-mail is {email}",
+            "New messages: {n}":"Nieuwe berichten: {n}",
+            "Apple|Apples":"Appel|Appels",
+            "1 Apple|{n} Apples":"1 Appel|{n} Appels",
+            "0#No comments, be the first!|1#One comment|n>1#{n} comments":"0#Geen reacties, wees de eerste!|1#Één reactie|n>1#{n} reacties",
+            "0#{name} has no mail|1#{name} has one new mail|n>1#{name} has {n} mails":"0#{name} heeft geen e-mail|1#{name} heeft één e-mail|n>1#{name} heeft {n} e-mails"
+        };
+
+        // basic translation
+        testcase.test("Basic translate", function () {
+            jqUnit.assertEquals("Basic translate",
+                    Yii.translate.do('Hello world!', '', fixture),
+                    'Hallo wereld!');
+        });
+
+        // simple placeholder test
+        testcase.test("Named placeholder", function () {
+            var expectedResult = 'Welkom John';
+
+            jqUnit.assertEquals("One placeholder",
+                    Yii.translate.do('Welcome {user}', {user:'John'}, fixture),
+                    'Welkom John');
+
+            jqUnit.assertEquals("Multiple placeholders",
+                    Yii.translate.do('Welcome {user}, your email is {email}', {user:'John', email:'john@example.com'}, fixture),
+                    'Welkom John, je e-mail is john@example.com');
+        });
+
+        // placeholder using number param
+        testcase.test("Numeric placeholder", function () {
+
+            jqUnit.assertEquals("Placeholder numerical",
+                    Yii.translate.do('New messages: {n}', 4, fixture),
+                    'Nieuwe berichten: 4');
+        });
+
+        testcase.test("Plural forms basic", function () {
+
+            jqUnit.assertEquals("Choice format 0",
+                    Yii.translate.do('Appel|Appels', 0, fixture),
+                    'Appels'
+            );
+            jqUnit.assertEquals("Choice format 1",
+                    Yii.translate.do('Appel|Appels', 1, fixture),
+                    'Appel'
+            );
+            jqUnit.assertEquals("Choice format 2",
+                    Yii.translate.do('Appel|Appels', 2, fixture),
+                    'Appels'
+            );
+        });
+
+        testcase.test("Plural forms basic with placeholders", function () {
+
+            jqUnit.assertEquals("Choice format 0",
+                    Yii.translate.do('1 Apple|{n} Apples', 0, fixture),
+                    '0 Appels'
+            );
+            jqUnit.assertEquals("Choice format 1",
+                    Yii.translate.do('1 Apple|{n} Apples', 1, fixture),
+                    '1 Appel'
+            );
+            jqUnit.assertEquals("Choice format 2",
+                    Yii.translate.do('1 Apple|{n} Apples', 2, fixture),
+                    '2 Appels'
+            );
+        });
+
+        testcase.test("Plural forms expressions", function () {
+
+            jqUnit.assertEquals("Choice format 0",
+                    Yii.translate.do('0#No comments, be the first!|1#One comment|n>1#{n} comments', 0, fixture),
+                    'Geen reacties, wees de eerste!'
+            );
+
+            jqUnit.assertEquals("Choice format 1",
+                    Yii.translate.do('0#No comments, be the first!|1#One comment|n>1#{n} comments', 1, fixture),
+                    'Één reactie'
+            );
+
+            jqUnit.assertEquals("Choice format 2",
+                    Yii.translate.do('0#No comments, be the first!|1#One comment|n>1#{n} comments', 2, fixture),
+                    '2 reacties'
+            );
+        });
+
+        testcase.test("Plural forms expressions plus placeholders", function () {
+            jqUnit.assertEquals("Choice format 0",
+                    Yii.translate.do('0#{name} has no mail|1#{name} has one new mail|n>1#{name} has {n} mails', {n:0, 'name':'Pete'}, fixture),
+                    'Pete heeft geen e-mail'
+            );
+
+        });
+
+    </script>
+</head>
+<body id="body">
+<h1 id="header">Yii JS translator extension</h1>
+
+<h2 id="banner"></h2>
+
+<h2 id="userAgent"></h2>
+
+<div id="main" style="display: none;">
+    <form id="test-form">
+        <input/>
+    </form>
+    <div id="ajax">
+
+    </div>
+</div>
+<ol id="tests"></ol>
+</body>
+</html>
