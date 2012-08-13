@@ -2,7 +2,7 @@ JsTrans
 =============
 
 JsTrans is a Yii extension aiming to port the native Yii translations module to javascript. Language files can be published
-and used within JavaScript in almost the same as Yii serverside does. Currently supported are placeholders and plural forms (including expressions).
+and used within JavaScript in almost the same as Yii server side does. Currently supported are placeholders and plural forms (including expressions).
 
 
 Installation
@@ -16,7 +16,6 @@ Usage
 We need to publish the translations to JavaScript for them to work. You can publish all your translation in a single
 location, or publish only parts in specific places. It can be placed in a controller or module.
 
-     <?php
      new JsTrans(array('app', 'dialogs'), array('nl','de'));
 
 The first parameter is the category, the second the language. Both accept single items as string or multiple as array.
@@ -24,7 +23,7 @@ There is an optional third parameter to specify the default language. If nothing
 
 If everything went well, the translations are published as a JavaScript file containing all the translation in JSON format.
 
-At this point, translations can be used in JavaScript.
+At this point, translations can be used in JavaScript:
 
     Yii.t('app','Are you sure');
 
@@ -33,7 +32,7 @@ Make sure there is a translation available to see the results.
 
 Examples
 -----------
-(for demo purposes the default language is english, it could be any language)
+(for demo purposes the default language is English, it could be any language)
 
 Simple translation:
 
