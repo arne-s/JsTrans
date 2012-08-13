@@ -12,7 +12,7 @@
  *
  * @param mixed $categories the categories that are exported (accepts array and string)
  * @param mixed $languages the languages that are exported (accepts array and string)
- * @param string $defaultLanguage the default language used in translation
+ * @param string $defaultLanguage the default language used in translations
  */
 class JsTrans
 {
