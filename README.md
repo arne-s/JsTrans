@@ -14,8 +14,8 @@ Installation
 
 Usage
 -----------
-We need to publish the translations to JavaScript for them to work. You can publish all your translation in a single
-location, or publish only parts in specific places. It can be placed in a controller or module.
+We need to publish the translations to JavaScript for them to work. You can publish all your translations in a single
+location, or publish only parts in specific places. (e.g. controller or view)
 
      new JsTrans(array('app', 'dialogs'), array('nl','de'));
 
