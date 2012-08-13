@@ -22,7 +22,9 @@ location, or publish only parts in specific places. It can be placed in a contro
 The first parameter is the category, the second the language. Both accept single items as string or multiple as array.
 There is an optional third parameter to specify the default language. If nothing is passed, it will use the App default language.
 
-If everything went well, the translations are published as a JavaScript file containing all the translation in JSON format.
+If everything went well, the translations are published as a JavaScript file containing all the translations in JSON format.
+A hash is included in the filename, to distinguish between different languages/categories. By default the file is cached, you
+may need to empty the assets folder in order to force a refresh.
 
 At this point, translations can be used in JavaScript:
 
