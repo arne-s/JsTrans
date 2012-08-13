@@ -8,7 +8,7 @@ Currently supported are placeholders and plural forms (including expressions).
 
 Installation
 -----------
-* Copy JsTrans in extension folder
+* Copy JsTrans in extension folder (rename if necessary)
 * Import the extension in main config: ('ext.JsTrans.*')
 
 
