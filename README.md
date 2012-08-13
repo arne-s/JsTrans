@@ -28,7 +28,7 @@ may need to empty the assets folder in order to force a refresh.
 
 At this point, translations can be used in JavaScript:
 
-    Yii.t('app','Are you sure');
+    Yii.t('app','My non-translated text');
 
 Make sure there is a translation available to see the results.
 
