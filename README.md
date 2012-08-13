@@ -2,7 +2,8 @@ JsTrans
 =============
 
 JsTrans is a Yii extension aiming to port the native Yii translations module to javascript. Language files can be published
-and used within JavaScript in almost the same as Yii server side does. Currently supported are placeholders and plural forms (including expressions).
+and used within JavaScript in almost the same way as Yii does server side.
+Currently supported are placeholders and plural forms (including expressions).
 
 
 Installation
