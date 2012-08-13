@@ -10,10 +10,9 @@
 /**
  * Publish translations in JSON and append to the page
  *
- * @param message the message to be translated
- * @param params array of parameters (number, placeholders)
- * @param dictionary instance of dictionary
- * @return translated string
+ * @param mixed $categories the categories that are exported (accepts array and string)
+ * @param mixed $languages the languages that are exported (accepts array and string)
+ * @param string $defaultLanguage the default language used in translation
  */
 class JsTrans
 {
