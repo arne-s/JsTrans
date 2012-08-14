@@ -25,8 +25,8 @@ Yii.translate.do = function (message, params, dictionary) {
 
     if (typeof params !== 'undefined') {
         // extract number from params
-        if (typeof params == 'number')  num = params; // params is a number
-        if (typeof params.n == 'number') num = params.n; // else check if key 'n' exists
+        if (params % 1 === 0) num = params; // params is a number
+        else if (params.n % 1 === 0) num = params.n; // else check if key 'n' exists
 
         // remove from params if exists (treat all other params as placeholders)
         delete params.n;
@@ -34,11 +34,14 @@ Yii.translate.do = function (message, params, dictionary) {
 
     // split translation into pieces
     var chunks = translation.split('|');
+
     if (translation.indexOf('#') !== -1) { // translation contains expression
         for (var i = 0; i < chunks.length; i++) {
             var pieces = chunks[i].split('#'), // split each chunk in two parts (0: expression, 1: message)
                 ex = pieces[0],
                 msg = pieces[1];
+
+            console.log(msg + ':' + num)
 
             if (pieces.length == 2) {
                 // handle number shortcut (0 instead of n==0)
@@ -62,7 +65,7 @@ Yii.translate.do = function (message, params, dictionary) {
     if (typeof num == 'number') translation = translation.split('{n}').join(num);
 
     // replace placeholder/replacements
-    if (typeof(params == 'Object')) for (var key in params) translation = translation.split('{'+key+'}').join(params[key]);
+    if (typeof(params == 'Object')) for (var key in params) translation = translation.split('{' + key + '}').join(params[key]);
 
     return translation;
 }
