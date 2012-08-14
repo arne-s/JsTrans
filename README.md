@@ -57,14 +57,14 @@ Multiple placeholders:
 Plural forms:
 
     Yii.t('app','Apple|Apples',0); // Apples
-    Yii.t('app','Apple|Apples',1; // Apple
-    Yii.t('app','Apple|Apples',2; // Apples
+    Yii.t('app','Apple|Apples',1); // Apple
+    Yii.t('app','Apple|Apples',2); // Apples
 
 Plural forms with placeholders:
 
     Yii.t('app','{n} Apple|{n} Apples',0); // 0 Apples
-    Yii.t('app','{n} Apple|{n} Apples',1; // 1 Apple
-    Yii.t('app','{n} Apple|{n} Apples',2; // 2 Apples
+    Yii.t('app','{n} Apple|{n} Apples',1); // 1 Apple
+    Yii.t('app','{n} Apple|{n} Apples',2); // 2 Apples
 
 Plural forms with expressions:
 
