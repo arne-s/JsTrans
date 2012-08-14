@@ -75,9 +75,9 @@ Plural forms with expressions:
 
 Plural forms with expressions and placeholders:
 
-    Yii.t('app','0#{name} has no mail|1#{name} has one new mail|n>1#{name} has {n} mails',{n:0, name:'Pete'}); // Pete has no mail
-    Yii.t('app','0#{name} has no mail|1#{name} has one new mail|n>1#{name} has {n} mails',{n:1, name:'Pete'}); // Pete has one new mail
-    Yii.t('app','0#{name} has no mail|1#{name} has one new mail|n>1#{name} has {n} mails',{n:2, name:'Pete'}); // Pete has 2 new mails
+    Yii.t('app','0#{name} has no mail|1#{name} has one mail|n>1#{name} has {n} mails',{n:0, name:'Pete'}); // Pete has no mail
+    Yii.t('app','0#{name} has no mail|1#{name} has one mail|n>1#{name} has {n} mails',{n:1, name:'Pete'}); // Pete has one mail
+    Yii.t('app','0#{name} has no mail|1#{name} has one mail|n>1#{name} has {n} mails',{n:2, name:'Pete'}); // Pete has 2 mails
 
 
 Generate translations using Yiic
