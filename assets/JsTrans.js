@@ -41,8 +41,6 @@ Yii.translate.do = function (message, params, dictionary) {
                 ex = pieces[0],
                 msg = pieces[1];
 
-            console.log(msg + ':' + num)
-
             if (pieces.length == 2) {
                 // handle number shortcut (0 instead of n==0)
                 if (ex % 1 === 0) ex = 'n==' + ex;
