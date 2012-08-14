@@ -33,9 +33,8 @@ class JsTrans
 
         $dictionaryFile = "$assetUrl/dictionary-$hash.js";
 
-        // generate dictionary file if not exists
-        if (!file_exists($dictionaryFile)) {
-
+        // generate dictionary file if not exists or YII DEBUG is
+        if (!file_exists(Yii::getPathOfAlias('webroot') . $dictionaryFile) || YII_DEBUG) {
             // declare config (passed to JS)
             $config = array('language' => $defaultLanguage);
 
@@ -63,7 +62,7 @@ class JsTrans
         // publish library and dictionary
         if (file_exists(Yii::getPathOfAlias('webroot') . $dictionaryFile)) {
             Yii::app()->getClientScript()
-                    ->registerScriptFile($assetUrl . '/JsTrans.min.js', CClientScript::POS_HEAD)
+                    ->registerScriptFile($assetUrl . '/JsTrans.js', CClientScript::POS_HEAD)
                     ->registerScriptFile($dictionaryFile, CClientScript::POS_HEAD);
         } else {
             Yii::log('Error: Could not publish dictionary file, check file permissions', 'trace', 'jstrans');
