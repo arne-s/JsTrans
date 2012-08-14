@@ -2,7 +2,7 @@ JsTrans
 =============
 
 JsTrans is a Yii extension aiming to port the native Yii translations module to javascript. Language files can be published
-and used within JavaScript in almost the same way as Yii does server side.
+and used within javascript in almost the same way as Yii does server side.
 Currently supported are placeholders and plural forms (including expressions).
 
 
@@ -14,7 +14,7 @@ Installation
 
 Usage
 -----------
-We need to publish the translations to JavaScript for them to work. You can publish all your translations in a single
+We need to publish the translations to javascript for them to work. You can publish all your translations in a single
 location, or publish only parts in specific places. (e.g. controller or view)
 
      new JsTrans(array('app', 'dialogs'), array('nl','de'));
@@ -22,11 +22,11 @@ location, or publish only parts in specific places. (e.g. controller or view)
 The first parameter is the category, the second the language. Both accept single items as string or multiple as array.
 There is an optional third parameter to specify the default language. If nothing is passed, it will use the App default language.
 
-If everything went well, the translations are published as a JavaScript file containing all the translations in JSON format.
+If everything went well, the translations are published as a javascript file containing all the translations in JSON format.
 A hash is included in the filename, to distinguish between different languages/categories. By default the file is cached, you
 may need to empty the assets folder in order to force a refresh.
 
-At this point, translations can be used in JavaScript:
+At this point, translations can be used in javascript:
 
     Yii.t('app','My non-translated text');
 
@@ -83,7 +83,7 @@ Plural forms with expressions and placeholders:
 Generate translations using Yiic
 -----------
 
-Yii can be configured to automatically scan JavaScript files for translations, for more info see
+Yii can be configured to automatically scan javascript files for translations, for more info see
 http://www.yiiframework.com/doc/api/1.1/CPhpMessageSource
 
 An example configuration could look like this:
@@ -103,5 +103,5 @@ An example configuration could look like this:
         ),
     );
 
-Best practise is to keep your JavaScript translations in separate categories, otherwise they might override each other.
+Best practise is to keep your javascript translations in separate categories, otherwise they might override each other.
 This is a known limitation of the framework.
