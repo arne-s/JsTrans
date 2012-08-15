@@ -20,10 +20,10 @@ Yii.translate.do = function (message, params, dictionary) {
     // try to translate string
     var translation = (dictionary && typeof dictionary[message] !== 'undefined') ? dictionary[message] : message;
 
-    // declare numeric param
-    var num = 0;
-
     if (typeof params !== 'undefined') {
+        // declare numeric param
+        var num = 0;
+
         // extract number from params
         if (params % 1 === 0) params = {'n':params}; // param is numeric, convert to object key for convenience
         if (params.n % 1 === 0) num = params.n;
