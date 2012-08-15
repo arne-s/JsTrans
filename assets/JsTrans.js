@@ -20,8 +20,8 @@ Yii.translate.do = function (message, params, dictionary) {
     // try to translate string
     var translation = (dictionary && typeof dictionary[message] !== 'undefined') ? dictionary[message] : message;
 
-    // handle plural forms (choice format. e.g.: Yii::t('app', 'n==1#one book|n>1#many books', 1));
-    var num = false;
+    // declare numeric param
+    var num = 0;
 
     if (typeof params !== 'undefined') {
         // extract number from params
