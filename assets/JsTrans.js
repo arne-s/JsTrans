@@ -20,44 +20,45 @@ Yii.translate.do = function (message, params, dictionary) {
     // try to translate string
     var translation = (dictionary && typeof dictionary[message] !== 'undefined') ? dictionary[message] : message;
 
-    if (typeof params !== 'undefined') {
-        // declare numeric param
-        var num = 0;
+    if (typeof params == 'undefined') params = 0;
 
-        // extract number from params
-        if (params % 1 === 0) params = {'n':params}; // param is numeric, convert to object key for convenience
-        if (params.n % 1 === 0) num = params.n;
+    // declare numeric param
+    var num = 0;
 
-        // split translation into pieces
-        var chunks = translation.split('|');
+    // extract number from params
+    if (params % 1 === 0) params = {'n':params}; // param is numeric, convert to object key for convenience
+    if (params.n % 1 === 0) num = params.n;
 
-        if (translation.indexOf('#') !== -1) { // translation contains expression
-            for (var i = 0; i < chunks.length; i++) {
-                var pieces = chunks[i].split('#'), // split each chunk in two parts (0: expression, 1: message)
-                    ex = pieces[0],
-                    msg = pieces[1];
+    // split translation into pieces
+    var chunks = translation.split('|');
 
-                if (pieces.length == 2) {
-                    // handle number shortcut (0 instead of n==0)
-                    if (ex % 1 === 0) ex = 'n==' + ex;
+    if (translation.indexOf('#') !== -1) { // translation contains expression
+        for (var i = 0; i < chunks.length; i++) {
+            var pieces = chunks[i].split('#'), // split each chunk in two parts (0: expression, 1: message)
+                ex = pieces[0],
+                msg = pieces[1];
 
-                    // create expression to be evaluated (e.g. n>3)
-                    var eval_expr = ex.split('n').join(num);
+            if (pieces.length == 2) {
+                // handle number shortcut (0 instead of n==0)
+                if (ex % 1 === 0) ex = 'n==' + ex;
 
-                    // if expression matches, set translation to current chunk
-                    if (eval(eval_expr)) {
-                        translation = msg;
-                        break;
-                    }
+                // create expression to be evaluated (e.g. n>3)
+                var eval_expr = ex.split('n').join(num);
+
+                // if expression matches, set translation to current chunk
+                if (eval(eval_expr)) {
+                    translation = msg;
+                    break;
                 }
             }
         }
-        // if translation doesn't contain # but does contain |, treat it as simple choice format
-        else if (chunks.length > 1) translation = (num == 1) ? chunks[0] : chunks[1];
-
-        // replace placeholder/replacements
-        if (typeof(params == 'Object')) for (var key in params) translation = translation.split('{' + key + '}').join(params[key]);
     }
+    // if translation doesn't contain # but does contain |, treat it as simple choice format
+    else if (chunks.length > 1) translation = (num == 1) ? chunks[0] : chunks[1];
+
+    // replace placeholder/replacements
+    if (typeof(params == 'Object')) for (var key in params) translation = translation.split('{' + key + '}').join(params[key]);
+
 
     return translation;
 }
