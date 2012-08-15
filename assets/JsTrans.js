@@ -25,11 +25,8 @@ Yii.translate.do = function (message, params, dictionary) {
 
     if (typeof params !== 'undefined') {
         // extract number from params
-        if (params % 1 === 0) num = params; // params is a number
-        else if (params.n % 1 === 0) num = params.n; // else check if key 'n' exists
-
-        // remove from params if exists (treat all other params as placeholders)
-        delete params.n;
+        if (params % 1 === 0) params = {'n':params}; // param is numeric, convert to object key for convenience
+        if (params.n % 1 === 0) num = params.n;
     }
 
     // split translation into pieces
@@ -58,9 +55,6 @@ Yii.translate.do = function (message, params, dictionary) {
     }
     // if translation doesn't contain # but does contain |, treat it as simple choice format
     else if (chunks.length > 1) translation = (num == 1) ? chunks[0] : chunks[1];
-
-    // replace {n} with number
-    if (typeof num == 'number') translation = translation.split('{n}').join(num);
 
     // replace placeholder/replacements
     if (typeof(params == 'Object')) for (var key in params) translation = translation.split('{' + key + '}').join(params[key]);
