@@ -57,8 +57,8 @@ Yii.translate.do = function (message, params, dictionary) {
     else if (chunks.length > 1) translation = (num == 1) ? chunks[0] : chunks[1];
 
     // replace placeholder/replacements
-    if (typeof(params == 'Object')) for (var key in params) translation = translation.split('{' + key + '}').join(params[key]);
-
+    if (typeof(params == 'Object'))
+        for (var key in params) translation = translation.split('{' + key + '}').join(params[key]);
 
     return translation;
 }
@@ -71,12 +71,12 @@ Yii.translate.do = function (message, params, dictionary) {
  * @param message the message to be translated
  * @param params array of parameters (number, placeholders)
  * @param params language code to translate to (will use fallback if not supplied)
+ * @return translated message
  */
 Yii.t = function (category, message, params, language) {
     // use supplied language, if not defined, fall back on config
-    var lang = language ? language : Yii.translate.config.language;
-
-    var dictionary = false;
+    var lang = language ? language : Yii.translate.config.language,
+        dictionary = false;
 
     // find dictionary
     if (typeof Yii.translate.dictionary[lang] !== 'undefined')
