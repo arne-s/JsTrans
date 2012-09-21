@@ -66,8 +66,8 @@ class JsTrans
         // publish library and dictionary
         if (file_exists(Yii::getPathOfAlias('webroot') . $dictionaryFile)) {
             Yii::app()->getClientScript()
-                    ->registerScriptFile($assetUrl . '/JsTrans.min.js', CClientScript::POS_END)
-                    ->registerScriptFile($dictionaryFile, CClientScript::POS_END);
+                    ->registerScriptFile($assetUrl . '/JsTrans.min.js', CClientScript::POS_HEAD)
+                    ->registerScriptFile($dictionaryFile, CClientScript::POS_HEAD);
         } else {
             Yii::log('Error: Could not publish dictionary file, check file permissions', 'trace', 'jstrans');
         }
