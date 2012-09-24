@@ -15,7 +15,7 @@ Yii.translate = {
  * @param dictionary instance of dictionary
  * @return translated string
  */
-Yii.translate.do = function (message, params, dictionary) {
+Yii.translate.process = function (message, params, dictionary) {
 
     // try to translate string
     var translation = (dictionary && typeof dictionary[message] !== 'undefined') ? dictionary[message] : message;
@@ -84,5 +84,5 @@ Yii.t = function (category, message, params, language) {
             dictionary = Yii.translate.dictionary[lang][category];
 
     // pass message and dictionary to translate function
-    return Yii.translate.do(message, params, dictionary);
+    return Yii.translate.process(message, params, dictionary);
 }
