@@ -40,7 +40,7 @@ class JsTrans
             $config = array('language' => $defaultLanguage);
 
             // base folder for message translations
-            $messagesFolder = rtrim(Yii::app()->coreMessages->basePath, '\/');
+            $messagesFolder = rtrim(Yii::app()->messages->basePath, '\/');
 
             // loop message files and store translations in array
             $dictionary = array();
