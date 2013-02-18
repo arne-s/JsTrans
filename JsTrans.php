@@ -51,7 +51,7 @@ class JsTrans
                     if (!isset($dictionary[$lang][$cat])) $dictionary[$lang][$cat] = array();
 
                     $messagefile = $messagesFolder . '/' . $lang . '/' . $cat . '.php';
-                    if (file_exists($messagefile)) $dictionary[$lang][$cat] = require_once($messagefile);
+                    if (file_exists($messagefile)) $dictionary[$lang][$cat] = require($messagefile);
                 }
             }
 
