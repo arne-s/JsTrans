@@ -34,7 +34,7 @@ class JsTrans
         $dictionaryFile = "dictionary-{$hash}.js";
 
         // generate dictionary file if not exists or YII DEBUG is set
-        if (!file_exists($dictionaryFile) || YII_DEBUG) {
+        if (!file_exists($assets . '/' . $dictionaryFile) || YII_DEBUG) {
             // declare config (passed to JS)
             $config = array('language' => $defaultLanguage);
 
@@ -50,7 +50,7 @@ class JsTrans
                     if (!isset($dictionary[$lang][$cat])) $dictionary[$lang][$cat] = array();
 
                     $messagefile = $messagesFolder . '/' . $lang . '/' . $cat . '.php';
-                    if (file_exists($messagefile)) $dictionary[$lang][$cat] = require_once($messagefile);
+                    if (file_exists($messagefile)) $dictionary[$lang][$cat] = require($messagefile);
                 }
             }
 
