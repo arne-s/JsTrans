@@ -90,7 +90,7 @@ An example configuration could look like this:
 
     return array(
         'sourcePath' => dirname(__FILE__) . '/../..',
-        'messagePath' => dirname(__FILE__) '/../messages',
+        'messagePath' => dirname(__FILE__) . '/../messages',
         'translator' => 'Yii.t',
         'languages' => array('nl','de'),
         'fileTypes' => array('js'),
