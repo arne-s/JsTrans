@@ -48,7 +48,7 @@ class JsTrans
 
                 foreach ($categories as $cat) {
                     $messagefile = $messagesFolder . '/' . $lang . '/' . $cat . '.php';
-                    if (file_exists($messagefile)) $dictionary[$lang][$cat] = require($messagefile);
+                    if (file_exists($messagefile)) $dictionary[$lang][$cat] = array_filter(require($messagefile));
                 }
             }
 
