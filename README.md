@@ -107,6 +107,7 @@ Best practise is to keep your javascript translations in separate categories, ot
 This is a known limitation of the framework.
 
 Resources
+-----------
 * extension page: http://www.yiiframework.com/extension/jstrans/
 * github project: https://github.com/Arne-S/JsTrans
 
