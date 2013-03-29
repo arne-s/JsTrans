@@ -80,11 +80,11 @@ Plural forms with expressions and placeholders:
     Yii.t('app','0#{name} has no mail|1#{name} has one mail|n>1#{name} has {n} mails',{n:2, name:'Pete'}); // Pete has 2 mails
 
 
-Generate translations using Yiic
+(optional) Generate translations using Yiic
 -----------
 
 Yii can be configured to automatically scan javascript files for translations, for more info see
-http://www.yiiframework.com/doc/api/1.1/CPhpMessageSource
+http://www.yiiframework.com/doc/api/1.1/CPhpMessageSource 
 
 An example configuration could look like this:
 
