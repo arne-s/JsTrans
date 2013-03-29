@@ -8,7 +8,7 @@ Currently supported are placeholders and plural forms (including expressions).
 
 Installation
 -----------
-* Copy JsTrans in extension folder (rename if necessary)
+* Download/clone JsTrans in extension folder (folder should be 'JsTrans') 
 * Import the extension in main config: ('ext.JsTrans.*')
 
 
@@ -17,7 +17,7 @@ Usage
 We need to publish the translations to javascript for them to work. You can publish all your translations in a single
 location, or publish only parts in specific places. (e.g. controller or view)
 
-     new JsTrans(array('app', 'dialogs'), array('nl','de'));
+     new JsTrans('app','nl');
 
 The first parameter is the category, the second the language. Both accept single items as string or multiple as array.
 There is an optional third parameter to specify the default language. If nothing is passed, it will use the App default language.
