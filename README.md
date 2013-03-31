@@ -8,7 +8,7 @@ Currently supported are placeholders and plural forms (including expressions).
 
 Installation
 -----------
-* Copy JsTrans in extension folder (rename if necessary)
+* Download/clone JsTrans in extension folder (folder should be 'JsTrans') 
 * Import the extension in main config: ('ext.JsTrans.*')
 
 
@@ -17,7 +17,7 @@ Usage
 We need to publish the translations to javascript for them to work. You can publish all your translations in a single
 location, or publish only parts in specific places. (e.g. controller or view)
 
-     new JsTrans(array('app', 'dialogs'), array('nl','de'));
+     new JsTrans('app','nl');
 
 The first parameter is the category, the second the language. Both accept single items as string or multiple as array.
 There is an optional third parameter to specify the default language. If nothing is passed, it will use the App default language.
@@ -80,17 +80,17 @@ Plural forms with expressions and placeholders:
     Yii.t('app','0#{name} has no mail|1#{name} has one mail|n>1#{name} has {n} mails',{n:2, name:'Pete'}); // Pete has 2 mails
 
 
-Generate translations using Yiic
+(optional) Generate translations using Yiic
 -----------
 
 Yii can be configured to automatically scan javascript files for translations, for more info see
-http://www.yiiframework.com/doc/api/1.1/CPhpMessageSource
+http://www.yiiframework.com/doc/api/1.1/CPhpMessageSource 
 
 An example configuration could look like this:
 
     return array(
         'sourcePath' => dirname(__FILE__) . '/../..',
-        'messagePath' => dirname(__FILE__) '/../messages',
+        'messagePath' => dirname(__FILE__) . '/../messages',
         'translator' => 'Yii.t',
         'languages' => array('nl','de'),
         'fileTypes' => array('js'),
@@ -105,3 +105,9 @@ An example configuration could look like this:
 
 Best practise is to keep your javascript translations in separate categories, otherwise they might override each other.
 This is a known limitation of the framework.
+
+Resources
+-----------
+* extension page: http://www.yiiframework.com/extension/jstrans/
+* github project: https://github.com/Arne-S/JsTrans
+

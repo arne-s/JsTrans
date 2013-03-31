@@ -48,10 +48,8 @@ class JsTrans
                 if (!isset($dictionary[$lang])) $dictionary[$lang] = array();
 
                 foreach ($categories as $cat) {
-                    if (!isset($dictionary[$lang][$cat])) $dictionary[$lang][$cat] = array();
-
                     $messagefile = $messagesFolder . '/' . $lang . '/' . $cat . '.php';
-                    if (file_exists($messagefile)) $dictionary[$lang][$cat] = require($messagefile);
+                    if (file_exists($messagefile)) $dictionary[$lang][$cat] = array_filter(require($messagefile));
                 }
             }
 
