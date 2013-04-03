@@ -15,6 +15,9 @@
  */
 class JsTrans
 {
+    private $_publishPath;
+    private $_assetsPath;
+
     public function __construct($categories, $languages, $defaultLanguage = null)
     {
         // set default language
@@ -24,17 +27,16 @@ class JsTrans
         if (!is_array($categories)) $categories = array($categories);
         if (!is_array($languages)) $languages = array($languages);
 
-        // publish assets folder
-        $assets = dirname(__FILE__) . '/assets';
-        $baseUrl = Yii::app()->assetManager->publish($assets);
+        // set assetsPath
+        $this->_assetsPath = dirname(__FILE__) . '/assets';
 
         // create hash
-        $hash = substr(md5(implode($categories) . ':' . implode($languages)), 0, 10);
+        $hash = substr(md5(implode($categories) . ':' . implode($languages) ), 0, 10);
 
-        $dictionaryFile = "dictionary-{$hash}.js";
+         $dictionaryFile = "JsTrans.dictionary.{$hash}.js";
 
         // generate dictionary file if not exists or YII DEBUG is set
-        if (!file_exists($assets . '/' . $dictionaryFile) || YII_DEBUG) {
+        if (!file_exists($this->_assetsPath . '/' . $dictionaryFile) || YII_DEBUG) {
             // declare config (passed to JS)
             $config = array('language' => $defaultLanguage);
 
@@ -53,20 +55,25 @@ class JsTrans
             }
 
             // save config/dictionary
-            $data = 'Yii.translate.config=' . CJSON::encode($config) . ';' .
-                    'Yii.translate.dictionary=' . CJSON::encode($dictionary);
-
+            $data = 'Yii.translate.config=' . CJSON::encode($config) . ';' .'Yii.translate.dictionary=' . CJSON::encode($dictionary);
 
             // save to dictionary file
-            if(!file_put_contents($assets . '/' . $dictionaryFile, $data))
+            if(!file_put_contents($this->_assetsPath . '/' . $dictionaryFile, $data))
                Yii::log('Error: Could not write dictionary file, check file permissions', 'trace', 'jstrans');
+
+            // Publish files! (force copy again since something changed!)
+            $this->_publishPath = Yii::app()->assetManager->publish($this->_assetsPath, false, 0, true);
         }
 
         // publish library and dictionary
-        if (file_exists($assets . '/' . $dictionaryFile)) {
-            Yii::app()->getClientScript()
-                    ->registerScriptFile($baseUrl . '/JsTrans.min.js', CClientScript::POS_HEAD)
-                    ->registerScriptFile($baseUrl . '/' . $dictionaryFile, CClientScript::POS_HEAD);
+        if (file_exists($this->_assetsPath . '/' . $dictionaryFile)) {    
+            // If no update occured only get the publish path 
+            if(!$this->_publishPath)
+                $this->_publishPath = Yii::app()->assetManager->getPublishedPath($this->_assetsPath);
+
+            // register client  scripts!
+            Yii::app()->clientScript->registerScriptFile($this->_publishPath . '/JsTrans.min.js', CClientScript::POS_HEAD);
+            Yii::app()->clientScript->registerScriptFile($this->_publishPath . '/' . $dictionaryFile, CClientScript::POS_HEAD);
         } else {
             Yii::log('Error: Could not publish dictionary file, check file permissions', 'trace', 'jstrans');
         }
