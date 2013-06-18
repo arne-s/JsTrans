@@ -33,13 +33,13 @@ class JsTrans
         $this->_assetsPath = dirname(__FILE__) . '/assets';
         $this->_publishPath = $assetManager->getPublishedPath($this->_assetsPath);
 
+        // create hash
+        $hash = substr(md5(implode($categories) . ':' . implode($languages) ), 0, 10);
+        $dictionaryFile = "JsTrans.dictionary.{$hash}.js";
+
         // publish assets and generate dictionary file if neccessary
         if (!file_exists($this->_publishPath) || YII_DEBUG) {
             $this->_publishPath = $assetManager->getPublishedPath($this->_assetsPath);
-
-            // create hash
-            $hash = substr(md5(implode($categories) . ':' . implode($languages) ), 0, 10);
-            $dictionaryFile = "JsTrans.dictionary.{$hash}.js";
 
             // declare config (passed to JS)
             $config = array('language' => $defaultLanguage);
