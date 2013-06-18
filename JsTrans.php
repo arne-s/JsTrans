@@ -1,17 +1,9 @@
 <?php
+
 /**
  * JsTrans
  *
  * Use Yii translations in Javascript
- *
- */
-
-/**
- * Publish translations in JSON and append to the page
- *
- * @param mixed $categories the categories that are exported (accepts array and string)
- * @param mixed $languages the languages that are exported (accepts array and string)
- * @param string $defaultLanguage the default language used in translations
  */
 class JsTrans
 {
@@ -19,6 +11,13 @@ class JsTrans
     private $_publishPath;
     private $_publishUrl;
 
+    /**
+     * Publish translations in JSON and append to the page
+     *
+     * @param mixed $categories the categories that are exported (accepts array and string)
+     * @param mixed $languages the languages that are exported (accepts array and string)
+     * @param string $defaultLanguage the default language used in translations
+     */
     public function __construct($categories, $languages, $defaultLanguage = null)
     {
         $assetManager = Yii::app()->assetManager;
