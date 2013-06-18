@@ -15,11 +15,14 @@
  */
 class JsTrans
 {
-    private $_publishPath;
     private $_assetsPath;
+    private $_publishPath;
+    private $_publishUrl;
 
     public function __construct($categories, $languages, $defaultLanguage = null)
     {
+        $assetManager = Yii::app()->assetManager;
+
         // set default language
         if (!$defaultLanguage) $defaultLanguage = Yii::app()->language;
 
@@ -27,16 +30,18 @@ class JsTrans
         if (!is_array($categories)) $categories = array($categories);
         if (!is_array($languages)) $languages = array($languages);
 
-        // set assetsPath
+        // set paths
         $this->_assetsPath = dirname(__FILE__) . '/assets';
+        $this->_publishPath = $assetManager->getPublishedPath($this->_assetsPath);
 
-        // create hash
-        $hash = substr(md5(implode($categories) . ':' . implode($languages) ), 0, 10);
+        // publish assets and generate dictionary file if neccessary
+        if (!file_exists($this->_publishPath) || YII_DEBUG) {
+            $this->_publishPath = $assetManager->getPublishedPath($this->_assetsPath);
 
-         $dictionaryFile = "JsTrans.dictionary.{$hash}.js";
+            // create hash
+            $hash = substr(md5(implode($categories) . ':' . implode($languages) ), 0, 10);
+            $dictionaryFile = "JsTrans.dictionary.{$hash}.js";
 
-        // generate dictionary file if not exists or YII DEBUG is set
-        if (!file_exists($this->_assetsPath . '/' . $dictionaryFile) || YII_DEBUG) {
             // declare config (passed to JS)
             $config = array('language' => $defaultLanguage);
 
@@ -50,32 +55,29 @@ class JsTrans
 
                 foreach ($categories as $cat) {
                     $messagefile = $messagesFolder . '/' . $lang . '/' . $cat . '.php';
-                    if (file_exists($messagefile)) $dictionary[$lang][$cat] = array_filter(require($messagefile));
+                    if (file_exists($messagefile)) {
+                        $dictionary[$lang][$cat] = array_filter(require($messagefile));
+                    }
                 }
             }
 
-            // save config/dictionary
-            $data = 'Yii.translate.config=' . CJSON::encode($config) . ';' .'Yii.translate.dictionary=' . CJSON::encode($dictionary);
+            // JSONify config/dictionary
+            $data = 'Yii.translate.config=' . CJSON::encode($config) . ';'
+                  . 'Yii.translate.dictionary=' . CJSON::encode($dictionary);
 
             // save to dictionary file
-            if(!file_put_contents($this->_assetsPath . '/' . $dictionaryFile, $data))
-               Yii::log('Error: Could not write dictionary file, check file permissions', 'trace', 'jstrans');
-
-            // Publish files! (force copy again since something changed!)
-            $this->_publishPath = Yii::app()->assetManager->publish($this->_assetsPath, false, 0, true);
+            if (!file_put_contents($this->_publishPath . '/' . $dictionaryFile, $data)) {
+               Yii::log('Error: Could not write dictionary file', 'trace', 'jstrans');
+               return null;
+            }
         }
 
-        // publish library and dictionary
-        if (file_exists($this->_assetsPath . '/' . $dictionaryFile)) {    
-            // If no update occured only get the publish path 
-            if(!$this->_publishPath)
-                $this->_publishPath = Yii::app()->assetManager->getPublishedPath($this->_assetsPath);
+        $this->_publishUrl = $assetManager->getPublishedUrl($this->_assetsPath);
 
-            // register client  scripts!
-            Yii::app()->clientScript->registerScriptFile($this->_publishPath . '/JsTrans.min.js', CClientScript::POS_HEAD);
-            Yii::app()->clientScript->registerScriptFile($this->_publishPath . '/' . $dictionaryFile, CClientScript::POS_HEAD);
-        } else {
-            Yii::log('Error: Could not publish dictionary file, check file permissions', 'trace', 'jstrans');
-        }
+        // register scripts
+        Yii::app()->clientScript->registerScriptFile(
+            $this->_publishUrl . '/JsTrans.min.js', CClientScript::POS_HEAD);
+        Yii::app()->clientScript->registerScriptFile(
+            $this->_publishUrl . '/' . $dictionaryFile, CClientScript::POS_HEAD);
     }
 }
