@@ -28,7 +28,7 @@ class JsTrans
         if (!is_array($languages)) $languages = array($languages);
 
         // set assetsPath
-        $this->_assetsPath = dirname(__FILE__) . '/assets';
+        $this->_assetsPath = Yii::getPathOfAlias('ext.JsTrans.assets');
 
         // create hash
         $hash = substr(md5(implode($categories) . ':' . implode($languages) ), 0, 10);
@@ -62,17 +62,31 @@ class JsTrans
                Yii::log('Error: Could not write dictionary file, check file permissions', 'trace', 'jstrans');
 
             // Publish files! (force copy again since something changed!)
-            $this->_publishPath = Yii::app()->assetManager->publish($this->_assetsPath, false, 0, true);
+            $this->_publishPath = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('ext.JsTrans.assets'), false, 0, true);
+
+
         }
+
+
 
         // publish library and dictionary
         if (file_exists($this->_assetsPath . '/' . $dictionaryFile)) {    
             // If no update occured only get the publish path 
             if(!$this->_publishPath)
-                $this->_publishPath = Yii::app()->assetManager->getPublishedPath($this->_assetsPath);
+                $this->_publishPath = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('ext.JsTrans.assets'));
+
+            echo "Asset Path: ". $this->_assetsPath;
+            echo "Publish Path: ". $this->_publishPath;
 
             // register client  scripts!
-            Yii::app()->clientScript->registerScriptFile($this->_publishPath . '/JsTrans.min.js', CClientScript::POS_HEAD);
+            if(YII_DEBUG)
+            {
+                Yii::app()->clientScript->registerScriptFile($this->_publishPath . '/JsTrans.js', CClientScript::POS_HEAD);
+            }
+            else 
+            {
+                Yii::app()->clientScript->registerScriptFile($this->_publishPath . '/JsTrans.min.js', CClientScript::POS_HEAD);
+            }
             Yii::app()->clientScript->registerScriptFile($this->_publishPath . '/' . $dictionaryFile, CClientScript::POS_HEAD);
         } else {
             Yii::log('Error: Could not publish dictionary file, check file permissions', 'trace', 'jstrans');
