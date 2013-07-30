@@ -75,8 +75,14 @@ class JsTrans
         }
 
         // register scripts
-        Yii::app()->clientScript->registerScriptFile(
-            $this->_publishUrl . '/JsTrans.min.js', CClientScript::POS_HEAD);
+        if(YII_DEBUG)
+        {
+            Yii::app()->clientScript->registerScriptFile(
+                $this->_publishUrl . '/JsTrans.js', CClientScript::POS_HEAD);
+        } else {
+            Yii::app()->clientScript->registerScriptFile(
+                $this->_publishUrl . '/JsTrans.min.js', CClientScript::POS_HEAD);
+        }
         Yii::app()->clientScript->registerScriptFile(
             $this->_publishUrl . '/' . $dictionaryFile, CClientScript::POS_HEAD);
     }
