@@ -46,10 +46,12 @@ Yii.translate.process = function (message, params, dictionary) {
                 var eval_expr = ex.split('n').join(num);
 
                 // if expression matches, set translation to current chunk
-                if (eval(eval_expr)) {
-                    translation = msg;
-                    break;
-                }
+                try {
+                    if (eval(eval_expr)) {
+                        translation = msg;
+                        break;
+                    }
+                } catch(e) {}
             }
         }
     }
