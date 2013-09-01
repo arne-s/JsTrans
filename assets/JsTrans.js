@@ -4,7 +4,10 @@ if (typeof Yii == 'undefined') var Yii = {};
 // Setup data structure
 Yii.translate = {
     dictionary:{},
-    config:{language:''}
+    config: {
+    	language:'',
+    	onMissingTranslation: "" 
+    }
 };
 
 /**
@@ -15,10 +18,16 @@ Yii.translate = {
  * @param dictionary instance of dictionary
  * @return translated string
  */
-Yii.translate.process = function (message, params, dictionary) {
+Yii.translate.process = function (message, params, dictionary, category, language) {
 
     // try to translate string
-    var translation = (dictionary && typeof dictionary[message] !== 'undefined') ? dictionary[message] : message;
+    var translation;
+    if (dictionary && typeof dictionary[message] !== 'undefined') {
+    	translation = dictionary[message];
+    } else {
+    	translation = message;
+    	Yii.translate.missing(category, message, language);
+    }
 
     if (typeof params == 'undefined') params = 0;
 
@@ -44,14 +53,14 @@ Yii.translate.process = function (message, params, dictionary) {
 
                 // create expression to be evaluated (e.g. n>3)
                 var eval_expr = ex.split('n').join(num);
-
-                // if expression matches, set translation to current chunk
+                
                 try {
-                    if (eval(eval_expr)) {
-                        translation = msg;
-                        break;
-                    }
-                } catch(e) {}
+	                // if expression matches, set translation to current chunk
+	                if (eval(eval_expr)) {
+	                    translation = msg;
+	                    break;
+	                }
+				} catch(e) {}
             }
         }
     }
@@ -63,6 +72,11 @@ Yii.translate.process = function (message, params, dictionary) {
         for (var key in params) translation = translation.split('{' + key + '}').join(params[key]);
 
     return translation;
+}
+
+Yii.translate.missing = function(category, message, language) {
+	if (Yii.translate.config.onMissingTranslation)
+		$.get(Yii.translate.config.onMissingTranslation, { category: category, message: message, language: language });
 }
 
 /**
@@ -86,5 +100,5 @@ Yii.t = function (category, message, params, language) {
             dictionary = Yii.translate.dictionary[lang][category];
 
     // pass message and dictionary to translate function
-    return Yii.translate.process(message, params, dictionary);
+    return Yii.translate.process(message, params, dictionary, category, lang);
 }

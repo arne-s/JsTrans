@@ -14,6 +14,32 @@ Installation
 
 Usage
 -----------
+
+UPDATE NOTE : 
+
+JsTrans can now be configured and loaded as a Yii component this way :
+	 ...
+	 // optionally to make jsTans available everywhere, without having to call 
+	 // Yii::app()->jsTrans before using it
+	 'preload'=>array('jsTrans', ... ), 
+	 ... 
+	 // jsTrans configuration
+	 'components'=>array(
+		...
+		'jsTrans'=>array( 
+			'class'=>'ext.JsTrans.JsTrans', 
+			'categories'=>array('app'), // the categories to be made available 
+			'languages'=>array('fr','es'), // the languages to be made available
+			'onMissingTranslation'=>array('site/missingTranslation'), // optional route to handle untranslated messages
+		), 
+		...
+
+If you specify the onMissingTranslation parameter, add the following method in controllers/SiteController.php 
+
+	public function actionMissingTranslation($category, $message, $language) {
+		Yii::t($category, $message, null, null, $language);
+	}
+	
 We need to publish the translations to javascript for them to work. You can publish all your translations in a single
 location, or publish only parts in specific places. (e.g. controller or view)
 

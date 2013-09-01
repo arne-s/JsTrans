@@ -1,5 +1,4 @@
 <?php
-
 /**
  * JsTrans
  *
@@ -10,6 +9,7 @@ class JsTrans
     public $categories;
 	public $languages;
 	public $defaultLanguage = null;
+	public $onMissingTranslation = null;
 	
 	private $_assetsPath;
     private $_publishPath;
@@ -39,6 +39,9 @@ class JsTrans
 
         // set default language
         if (!$this->defaultLanguage) $this->defaultLanguage = Yii::app()->language;
+        
+        // normalize missingTranslation url
+        if ($this->onMissingTranslation) $this->onMissingTranslation = CHtml::normalizeUrl($this->onMissingTranslation);
 
         // create arrays from params
         if (!is_array($this->categories)) $this->categories = array($this->categories);
@@ -60,7 +63,7 @@ class JsTrans
             $this->_publishPath = $assetManager->getPublishedPath($this->_assetsPath);
 
             // declare config (passed to JS)
-            $config = array('language' => $this->defaultLanguage);
+            $config = array('language' => $this->defaultLanguage,'onMissingTranslation'=>$this->onMissingTranslation);
 			
             // getting protected loadMessages method using Reflection to call it from outside 
             $messages = Yii::app()->messages;
