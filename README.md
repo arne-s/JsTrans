@@ -18,6 +18,7 @@ Usage
 UPDATE NOTE : 
 
 JsTrans can now be configured and loaded as a Yii component this way :
+
 	 ...
 	 // optionally to make jsTans available everywhere, without having to call 
 	 // Yii::app()->jsTrans before using it
