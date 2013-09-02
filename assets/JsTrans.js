@@ -21,11 +21,10 @@ Yii.translate = {
 Yii.translate.process = function (message, params, dictionary, category, language) {
 
     // try to translate string
-    var translation;
-    if (dictionary && typeof dictionary[message] !== 'undefined') {
+    var translation = message;
+    if (dictionary && typeof dictionary[message] !== 'undefined' && dictionary[message] !== null) {
     	translation = dictionary[message];
     } else {
-    	translation = message;
     	Yii.translate.missing(category, message, language);
     }
 
