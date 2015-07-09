@@ -10,7 +10,7 @@ class JsTrans
 	public $languages;
 	public $defaultLanguage = null;
 	public $onMissingTranslation = null;
-	
+
 	private $_assetsPath;
     private $_publishPath;
     private $_publishUrl;
@@ -26,20 +26,20 @@ class JsTrans
     	$this->categories = $categories;
     	$this->languages = $languages;
     	$this->defaultLanguage = $defaultLanguage;
-    	
+
     	// if the class is being used the old way (not as a component)
     	if ($categories && $languages) {
     		$this->init();
     	}
     }
-    
+
     public function init()
     {
         $assetManager = Yii::app()->assetManager;
 
         // set default language
         if (!$this->defaultLanguage) $this->defaultLanguage = Yii::app()->language;
-        
+
         // normalize missingTranslation url
         if ($this->onMissingTranslation) $this->onMissingTranslation = CHtml::normalizeUrl($this->onMissingTranslation);
 
@@ -64,12 +64,12 @@ class JsTrans
 
             // declare config (passed to JS)
             $config = array('language' => $this->defaultLanguage,'onMissingTranslation'=>$this->onMissingTranslation);
-			
-            // getting protected loadMessages method using Reflection to call it from outside 
+
+            // getting protected loadMessages method using Reflection to call it from outside
             $messages = Yii::app()->messages;
             $loadMessages = new ReflectionMethod(get_class($messages), 'loadMessages');
 			$loadMessages->setAccessible(true);
-            
+
             // loop message files and store translations in array
             $dictionary = array();
             foreach ($this->languages as $lang) {
@@ -91,16 +91,14 @@ class JsTrans
             }
         }
 
-        // register scripts
-        if(YII_DEBUG)
-        {
-            Yii::app()->clientScript->registerScriptFile(
-                $this->_publishUrl . '/JsTrans.js', CClientScript::POS_HEAD);
-        } else {
-            Yii::app()->clientScript->registerScriptFile(
-                $this->_publishUrl . '/JsTrans.min.js', CClientScript::POS_HEAD);
-        }
-        Yii::app()->clientScript->registerScriptFile(
-            $this->_publishUrl . '/' . $dictionaryFile, CClientScript::POS_HEAD);
+        $jsTransFile = YII_DEBUG ? 'JsTrans.min.js' : 'JsTrans.js';
+
+        Yii::app()->getClientScript()->addPackage('JsTrans', [
+            'baseUrl' => $this->_publishUrl,
+            'js' => [$jsTransFile, $dictionaryFile],
+        ]);
+
+        Yii::app()->getClientScript()->registerPackage('JsTrans');
+
     }
 }
