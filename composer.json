@@ -1,0 +1,7 @@
+{
+  "name": "arne-s/JsTrans",
+  "description": "JsTrans is a Yii extension aiming to port the native Yii translations module to javascript.",
+  "require": {
+    "yiisoft/yii": "1.1.15"
+  }
+}
